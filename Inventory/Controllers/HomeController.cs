@@ -27,5 +27,11 @@ namespace Inventory.Controllers
       // RedirectToAction will redirect the control to Index Method. So that we dont need to make the list in Collection method also.
       // half working is done by Index Method for Collection Method. thus we can Prevent duplication of code.
     }
+    [HttpGet("/deleteall")]
+		public ActionResult DeleteAll()
+		{
+			InventoryCollection.DeleteAll();
+			return View();
+		}
   }
 }
