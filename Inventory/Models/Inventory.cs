@@ -79,12 +79,6 @@ namespace Inventory.Models
 
       cmd.ExecuteNonQuery();
       _id = (int) cmd.LastInsertedId;
-
-      // MySqlParameter id = new MySqlParameter();
-      // id.ParameterName = "@id";
-      // id.Value = this._id;
-      // cmd.Parameters.Add(id);
-
 }
     public static void DeleteAll()
     {
@@ -107,6 +101,34 @@ namespace Inventory.Models
         bool collectionEquality = (this.GetName() == newEntry.GetName());
         return collectionEquality;
       }
+    }
+    public static InventoryCollection Find(int id)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM `collection` WHERE id = @thisId;";
+
+      MySqlParameter thisId = new MySqlParameter();
+      thisId.ParameterName = "@thisId";
+      thisId.Value = id;
+      cmd.Parameters.Add(thisId);
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      int collectionId = 0;
+      string name = "";
+      int value = 0;
+      string year = "";
+
+      while (rdr.Read())
+      {
+        collectionId = rdr.GetInt32(0);
+        name = rdr.GetString(1);
+        value = rdr.GetInt32(2);
+        year = rdr.GetString(3);
+      }
+      InventoryCollection actual = new InventoryCollection(name,value,year,collectionId);
+      return actual;
     }
     public override int GetHashCode()
     {

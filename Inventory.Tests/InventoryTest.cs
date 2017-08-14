@@ -22,9 +22,9 @@ namespace Inventory.Tests
     public void GetAll_DatabaseCounts_2()
     {
       //Arrange
-      InventoryCollection newCollection1 = new InventoryCollection("dime",10,"05/10/1700",1);
+      InventoryCollection newCollection1 = new InventoryCollection("dime",10,"05/10/1700");
       newCollection1.Save();
-      InventoryCollection newCollection2 = new InventoryCollection("dime",10,"05/10/1700",1);
+      InventoryCollection newCollection2 = new InventoryCollection("dime",10,"05/10/1700");
       newCollection2.Save();
       int expected = 2;
       //Act
@@ -53,8 +53,10 @@ namespace Inventory.Tests
     [TestMethod]
     public void Find_FindrecordCollectionInDatabase_InventoryCollection()
     {
-      InventoryCollection newCollection = new InventoryCollection("coin1", 1, "20/10/1880", 0);
-
+      InventoryCollection expected = new InventoryCollection("coin1", 1, "20/10/1880");
+      expected.Save();
+      InventoryCollection actual = InventoryCollection.Find(expected.GetId());
+      Assert.AreEqual(expected,actual);
     }
   }
 }

@@ -1,0 +1,57 @@
+@{
+  Layout = "_Layout";
+}
+<div class="jumbotron">
+  <img src = "img/scrabbleImage.jpeg"/>
+  <h1> Welcome to the Inventory for Coin Collection </h1>
+
+  <form action="/collection" method = "post">
+
+    <div class="form-group">
+      <label for="coinname">Please Enter the name of the coin</label>
+      <input id="coinname" name="coinname" type="text" />
+    </div>
+
+    <div class="form-group">
+      <label for="coinvalue">Please Enter the value of the coin</label>
+      <input id="coinvalue" name="coinvalue" type="number" />
+    </div>
+
+    <div class="form-group">
+      <label for="coinyear">Please Enter the year of the coin</label>
+      <input id="coinyear" name="coinyear" type="text" />
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg">Add Coin</button>
+  </form>
+
+  <div id = "result">
+    @* @if(Model != null)
+    { *@
+      @foreach(var coin in Model)
+      {
+        if(coin != null)
+        {
+          <li>@coin.GetId() -- @coin.GetName() -- @coin.GetValue() -- @coin.GetYear()</li>
+        }
+      }
+    @* /*}*/ *@
+    @* <table>
+    <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Year</th>
+    </tr>
+    @foreach(var coin in Model)
+    {
+    <tr>
+        <td>@coin.name</td>
+        <td>@coin.value</td>
+        <td>@coin.year</td>
+    </tr>
+    }
+</table> *@
+      @* <h3>Your Coin Collection: @Model.GetAll()</h3> *@
+      <p><strong>Total Coins: @Model.Count</strong></p>
+  </div>
+</div>
