@@ -21,7 +21,11 @@ namespace Inventory.Controllers
       string year = Request.Form["coinyear"];
       InventoryCollection newCollection = new InventoryCollection(name,value,year);
       newCollection.Save();
+      // List<InventoryCollection> newList = InventoryCollection.GetAll();
+      // return View("Index", newList);
       return RedirectToAction("Index");
+      // RedirectToAction will redirect the control to Index Method. So that we dont need to make the list in Collection method also.
+      // half working is done by Index Method for Collection Method. thus we can Prevent duplication of code.
     }
   }
 }
