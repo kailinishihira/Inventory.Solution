@@ -64,7 +64,7 @@ namespace Inventory.Models
        MySqlConnection conn = DB.Connection();
        conn.Open();
        var cmd = conn.CreateCommand() as MySqlCommand;
-       cmd.CommandText = @"SELECT * FROM coins WHERE category_id = @category_id;";
+       cmd.CommandText = @"SELECT * FROM coins WHERE category_id = @category_id ORDER BY value ASC";
 
        MySqlParameter categoryId = new MySqlParameter();
        categoryId.ParameterName = "@category_id";
@@ -92,7 +92,7 @@ namespace Inventory.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM categories;";
+      cmd.CommandText = @"SELECT * FROM categories ORDER BY name ASC;";
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
