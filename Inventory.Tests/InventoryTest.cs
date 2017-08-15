@@ -6,14 +6,14 @@ using System;
 namespace Inventory.Tests
 {
   [TestClass]
-  public class InventoryCollectionTest : IDisposable
+  public class CoinTest : IDisposable
   {
     public void Dispose()
     {
-      InventoryCollection.DeleteAll();
+      Coin.DeleteAll();
     }
 
-    public InventoryCollectionTest()
+    public CoinTest()
     {
       DBConfiguration.ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=inventory_test;";
     }
@@ -22,41 +22,58 @@ namespace Inventory.Tests
     public void GetAll_DatabaseCounts_2()
     {
       //Arrange
-      InventoryCollection newCollection1 = new InventoryCollection("dime",10,"05/10/1700",1);
+      Coin newCollection1 = new Coin("dime",10,"05/10/1700",1);
       newCollection1.Save();
-      InventoryCollection newCollection2 = new InventoryCollection("dime",10,"05/10/1700",1);
+      Coin newCollection2 = new Coin("dime",10,"05/10/1700",1);
       newCollection2.Save();
       int expected = 2;
       //Act
-      int actual = InventoryCollection.GetAll().Count;
+      int actual = Coin.GetAll().Count;
       //Assert
       Assert.AreEqual(expected,actual);
     }
     [TestMethod]
-    public void Equals_ReturnTrueIfPropertyValuesAreSame_InventoryCollection()
+    public void Equals_ReturnTrueIfPropertyValuesAreSame_Coin()
     {
       bool expected = true;
-      InventoryCollection firstEntry = new InventoryCollection("coin1", 1, "20/10/1880",1);
-      InventoryCollection secondEntry = new InventoryCollection("coin1", 1, "20/10/1880",1);
-      Assert.AreEqual(expected, InventoryCollection.Equals(firstEntry,secondEntry));
+      Coin firstEntry = new Coin("coin1", 1, "20/10/1880",1);
+      Coin secondEntry = new Coin("coin1", 1, "20/10/1880",1);
+      Assert.AreEqual(expected, Coin.Equals(firstEntry,secondEntry));
     }
     [TestMethod]
     public void Save_SavesToDatabase_allCollections()
     {
-      InventoryCollection newCollection = new InventoryCollection("dime",10,"05/10/1700",1);
+      Coin newCollection = new Coin("dime",10,"05/10/1700",1);
       newCollection.Save();
-      List<InventoryCollection> actual = InventoryCollection.GetAll();
-      List<InventoryCollection> expected = new List<InventoryCollection>();
+      List<Coin> actual = Coin.GetAll();
+      List<Coin> expected = new List<Coin>();
       expected.Add(newCollection);
       CollectionAssert.AreEqual(expected,actual);
     }
     [TestMethod]
-    public void Find_FindrecordCollectionInDatabase_InventoryCollection()
+    public void Find_FindrecordCollectionInDatabase_Coin()
     {
-      InventoryCollection expected = new InventoryCollection("coin1", 1, "20/10/1880",1);
+      Coin expected = new Coin("coin1", 1, "20/10/1880", 1);
       expected.Save();
-      InventoryCollection actual = InventoryCollection.Find(expected.GetId());
+      Coin actual = Coin.Find(expected.GetId());
       Assert.AreEqual(expected,actual);
+    }
+
+    [TestMethod]
+    public void Update_UpdatesTaskInDatabase_String()
+    {
+      //Arrange
+      Coin testCoin = new Coin("Quarter",10,"05/10/1700", 1);
+      testCoin.Save();
+      string newName = "Yen";
+
+      //Act
+      testCoin.UpdateName(newName);
+
+      string result = testCoin.GetName();
+
+      //Assert
+      Assert.AreEqual(newName, result);
     }
   }
 }

@@ -26,14 +26,14 @@ namespace Inventory.Tests
       Category testCategory = new Category("Coin Collection");
       testCategory.Save();
 
-      InventoryCollection firstCollection = new InventoryCollection("penny", 1, "1880", testCategory.GetId());
+      Coin firstCollection = new Coin("penny", 1, "1880", testCategory.GetId());
       firstCollection.Save();
-      InventoryCollection secondCollection = new InventoryCollection("dime",10,"1886", testCategory.GetId());
+      Coin secondCollection = new Coin("dime",10,"1886", testCategory.GetId());
       secondCollection.Save();
 
 
-      List<InventoryCollection> testCollectionList = new List<InventoryCollection> {firstCollection, secondCollection};
-      List<InventoryCollection> resultCollectionList = testCategory.GetCollection();
+      List<Coin> testCollectionList = new List<Coin> {firstCollection, secondCollection};
+      List<Coin> resultCollectionList = testCategory.GetCollection();
 
       CollectionAssert.AreEqual(testCollectionList, resultCollectionList);
     }
@@ -92,7 +92,7 @@ namespace Inventory.Tests
 
     public void Dispose()
     {
-      InventoryCollection.DeleteAll();
+      Coin.DeleteAll();
       Category.DeleteAll();
     }
   }

@@ -153,5 +153,27 @@ namespace Inventory.Models
     {
       return this.GetName().GetHashCode();
     }
+
+    public void UpdateName(string newName)
+       {
+           MySqlConnection conn = DB.Connection();
+           conn.Open();
+           var cmd = conn.CreateCommand() as MySqlCommand;
+           cmd.CommandText = @"UPDATE coins SET name = @newName WHERE id = @searchId;";
+
+           MySqlParameter searchId = new MySqlParameter();
+           searchId.ParameterName = "@searchId";
+           searchId.Value = _id;
+           cmd.Parameters.Add(searchId);
+
+           MySqlParameter name = new MySqlParameter();
+           name.ParameterName = "@newName";
+           name.Value = newName;
+           cmd.Parameters.Add(name);
+
+           cmd.ExecuteNonQuery();
+           _name = newName;
+       }
+
   }
 }
