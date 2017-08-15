@@ -1,21 +1,48 @@
-// using Microsoft.AspNetCore.Mvc;
-// using System;
-// using System.Collections.Generic;
-// using Inventory.Models;
-//
-// namespace Inventory.Controllers
-// {
-// 	public class HomeController : Controller
-// 	{
-//     [HttpGet("/")]
-//     public ActionResult Index()
-//     {
-//       List<InventoryCollection> newList = InventoryCollection.GetAll();
-//       return View("Index", newList);
-//     }
-//     [HttpPost("/collection")]
-//     public ActionResult Collection()
-//     {
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using Inventory.Models;
+
+namespace Inventory.Controllers
+{
+	public class HomeController : Controller
+	{
+    [HttpGet("/")]
+    public ActionResult Index()
+    {
+      return View();
+    }
+
+		[HttpGet("/categories/add")]
+    public ActionResult AddCategory()
+    {
+			return View();
+    }
+
+    [HttpPost("/categories/all")]
+    public ActionResult AllCategories()
+    {
+			Category newCategory = new Category (Request.Form["new-category"]);
+			newCategory.Save();
+			List<Category> newList = Category.GetAll();
+      return View(newList);
+		}
+
+		[HttpGet("/categories/all")]
+		public ActionResult ShowAllCategories()
+		{
+			return View("AllCategories");
+		}
+
+		[HttpGet("/categories/delete")]
+		public ActionResult DeleteAll()
+		{
+			Category.DeleteAll();
+			return View();
+		}
+	}
+}
+
 //       string name = Request.Form["coinname"];
 //       int value = int.Parse(Request.Form["coinvalue"]);
 //       string year = Request.Form["coinyear"];

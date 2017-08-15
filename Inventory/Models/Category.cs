@@ -8,6 +8,7 @@ namespace Inventory.Models
   {
     private string _name;
     private int _id;
+
     public Category(string name, int id = 0)
     {
       _name = name;
@@ -21,6 +22,7 @@ namespace Inventory.Models
     {
       return _name;
     }
+    
     public override bool Equals(System.Object otherCategory)
     {
       if(!(otherCategory is Category))

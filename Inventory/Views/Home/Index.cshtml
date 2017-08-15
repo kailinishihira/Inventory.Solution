@@ -1,57 +1,9 @@
 @{
   Layout = "_Layout";
 }
-<div class="jumbotron">
-  <img src = "img/scrabbleImage.jpeg"/>
-  <h1> Welcome to the Inventory for Coin Collection </h1>
 
-  <form action="/collection" method = "post">
+<h1>Inventory</h1>
 
-    <div class="form-group">
-      <label for="coinname">Please Enter the name of the coin</label>
-      <input id="coinname" name="coinname" type="text" />
-    </div>
+<a href="/categories/add"><button class="btn btn-default">Add New Category</button></a>
 
-    <div class="form-group">
-      <label for="coinvalue">Please Enter the value of the coin</label>
-      <input id="coinvalue" name="coinvalue" type="number" />
-    </div>
-
-    <div class="form-group">
-      <label for="coinyear">Please Enter the year of the coin</label>
-      <input id="coinyear" name="coinyear" type="text" />
-    </div>
-
-    <button type="submit" class="btn btn-primary btn-lg">Add Coin</button>
-  </form>
-
-  <div id = "result">
-  <table>
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Value</th>
-      <th>Year</th>
-    </tr>
-    @foreach(var coin in Model)
-    {
-      if(coin != null)
-      {
-        <tr>
-          <td>@coin.GetId()</td>
-          <td>@coin.GetName()</td>
-          <td>@coin.GetValue()</td>
-          <td>@coin.GetYear()</td>
-        </tr>
-      }
-    }
-  </table>
-          @* <li>@coin.GetId() -- @coin.GetName() -- @coin.GetValue() -- @coin.GetYear()</li> *@
-
-      <p><strong>Total Coins: @Model.Count</strong></p>
-
-      <form action="/deleteAll">
-        <button type="submit" class="btn btn-primary btn-lg">Delete Entire Collection</button>
-      </form>
-  </div>
-</div>
+<a href="/categories/all"><button class="btn btn-default">See All</button></a>

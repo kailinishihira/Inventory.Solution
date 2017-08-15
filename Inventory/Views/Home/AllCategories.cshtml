@@ -1,0 +1,12 @@
+<h1>Inventory</h1>
+
+<ul>
+  @foreach (var category in Model)
+  {
+  <li>@category.GetName()</li>
+  }
+</ul>
+
+<a href="/categories/delete"><button class="btn btn-default">Delete All</button></a>
+
+<a href="/"><button class="btn btn-default">Home</button></a>
