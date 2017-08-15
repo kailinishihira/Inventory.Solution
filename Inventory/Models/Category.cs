@@ -22,7 +22,7 @@ namespace Inventory.Models
     {
       return _name;
     }
-    
+
     public override bool Equals(System.Object otherCategory)
     {
       if(!(otherCategory is Category))
@@ -58,13 +58,13 @@ namespace Inventory.Models
       cmd.ExecuteNonQuery();
       _id = (int) cmd.LastInsertedId;
     }
-    public List<InventoryCollection> GetCollection()
+    public List<Coin> GetCollection()
     {
-       List<InventoryCollection> allCategoryCollection = new List<InventoryCollection> ();
+       List<Coin> allCategoryCollection = new List<Coin> ();
        MySqlConnection conn = DB.Connection();
        conn.Open();
        var cmd = conn.CreateCommand() as MySqlCommand;
-       cmd.CommandText = @"SELECT * FROM collection WHERE category_id = @category_id;";
+       cmd.CommandText = @"SELECT * FROM coins WHERE category_id = @category_id;";
 
        MySqlParameter categoryId = new MySqlParameter();
        categoryId.ParameterName = "@category_id";
@@ -80,7 +80,7 @@ namespace Inventory.Models
          int value = rdr.GetInt32(2);
          string year = rdr.GetString(3);
          int collectionCategoryId = rdr.GetInt32(4);
-         InventoryCollection newCollection = new InventoryCollection( name, value, year, collectionCategoryId , collectionId);
+         Coin newCollection = new Coin( name, value, year, collectionCategoryId , collectionId);
          allCategoryCollection.Add(newCollection);
        }
        return allCategoryCollection;

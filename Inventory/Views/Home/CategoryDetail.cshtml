@@ -1,0 +1,17 @@
+<h3>Here are all the Coins in this category:</h3>
+<ol>
+
+@foreach (var coin in @Model["collection"])
+{
+  <li>
+    <ul>
+      <li>@coin.GetName()</li>
+      <li>@coin.GetValue()</li>
+      <li>@coin.GetYear()</li>
+      <li>@coin.GetCategoryId()</li>
+    </ul>
+  </li>
+}
+</ol>
+<p><a href='/categories/@Model["category"].GetId()/collection/new'>Add a new coin</a></p>
+<p><a href='/'>Return to Main Page</a></p>

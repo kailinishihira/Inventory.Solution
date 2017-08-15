@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Inventory.Models
 {
-  public class InventoryCollection
+  public class Coin
   {
     private int _id;
     private string _name;
@@ -12,7 +12,7 @@ namespace Inventory.Models
     private string _year;
     private int _categoryId;
 
-    public InventoryCollection(string name, int value, string year, int categoryId , int id=0)
+    public Coin(string name, int value, string year, int categoryId , int id=0)
     {
       _name = name;
       _value = value;
@@ -41,23 +41,23 @@ namespace Inventory.Models
       return _categoryId;
     }
 
-    public static List<InventoryCollection> GetAll()
+    public static List<Coin> GetAll()
     {
-      List<InventoryCollection> allCollections = new List<InventoryCollection>();
+      List<Coin> allCollections = new List<Coin>();
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText= @"SELECT * FROM collection;";
+      cmd.CommandText= @"SELECT * FROM coins;";
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
-        int collectionId = rdr.GetInt32(0);
+        int coinId = rdr.GetInt32(0);
         string name = rdr.GetString(1);
         int value = rdr.GetInt32(2);
         string year = rdr.GetString(3);
-        int collectionCategoryId = rdr.GetInt32(4);
-        InventoryCollection newCollection = new InventoryCollection(name,value,year,collectionCategoryId,collectionId);
-        allCollections.Add(newCollection);
+        int coinCategoryId = rdr.GetInt32(4);
+        Coin newCoin = new Coin(name,value,year,coinCategoryId,coinId);
+        allCollections.Add(newCoin);
       }
       return allCollections;
     }
@@ -67,7 +67,7 @@ namespace Inventory.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"INSERT INTO `collection`(`name`, `value`, `year`, category_id) VALUES(@name, @value, @year, @category_id);";
+      cmd.CommandText = @"INSERT INTO `coins`(`name`, `value`, `year`, category_id) VALUES(@name, @value, @year, @category_id);";
 
       MySqlParameter name = new MySqlParameter();
       name.ParameterName = "@name";
@@ -97,19 +97,19 @@ namespace Inventory.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"DELETE FROM collection;";
+      cmd.CommandText = @"DELETE FROM coins;";
       cmd.ExecuteNonQuery();
     }
 
     public override bool Equals(System.Object otherEntry)
     {
-      if(!(otherEntry is InventoryCollection))
+      if(!(otherEntry is Coin))
       {
         return false;
       }
       else
       {
-        InventoryCollection newEntry = (InventoryCollection) otherEntry;
+        Coin newEntry = (Coin) otherEntry;
         bool idEquality = this.GetId() == newEntry.GetId();
         bool nameEquality = (this.GetName() == newEntry.GetName());
         bool valueEquality = (this.GetValue() == newEntry.GetValue());
@@ -118,12 +118,12 @@ namespace Inventory.Models
         return (idEquality && nameEquality && valueEquality && yearEquality && categoryEquality);
       }
     }
-    public static InventoryCollection Find(int id)
+    public static Coin Find(int id)
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM `collection` WHERE id = @thisId;";
+      cmd.CommandText = @"SELECT * FROM `coins` WHERE id = @thisId;";
 
       MySqlParameter thisId = new MySqlParameter();
       thisId.ParameterName = "@thisId";
@@ -131,22 +131,22 @@ namespace Inventory.Models
       cmd.Parameters.Add(thisId);
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
 
-      int collectionId = 0;
+      int coinId = 0;
       string name = "";
       int value = 0;
       string year = "";
       // int categoryEquality = 2;
-      int collectionCategoryId = 0;
+      int coinCategoryId = 0;
 
       while (rdr.Read())
       {
-        collectionId = rdr.GetInt32(0);
+        coinId = rdr.GetInt32(0);
         name = rdr.GetString(1);
         value = rdr.GetInt32(2);
         year = rdr.GetString(3);
-        collectionCategoryId = rdr.GetInt32(4);
+        coinCategoryId = rdr.GetInt32(4);
       }
-      InventoryCollection actual = new InventoryCollection(name,value,year,collectionCategoryId,collectionId);
+      Coin actual = new Coin(name,value,year,coinCategoryId,coinId);
       return actual;
     }
     public override int GetHashCode()
