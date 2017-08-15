@@ -78,6 +78,7 @@ namespace Inventory.Controllers
 			Category.DeleteAll();
 			return View();
 		}
+		
 		[HttpGet("/collection/{id}")]
     public ActionResult CollectionDetail(int id)
     {

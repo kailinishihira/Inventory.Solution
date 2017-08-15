@@ -1,11 +1,19 @@
-<h1>Inventory</h1>
+@{
+  Layout = "_Layout";
+}
 
-@if (@Model.Count == 0)
-{
-  <h3>No categories have been added yet!</h3>
-}
-@foreach (var category in Model)
-{
-  <h3><a href='/categories/@category.GetId()'>@category.GetName()</a></h3>
-}
-<p><a href='/'>Back home</a></p>
+<h1>Add a Category</h1>
+<div class="well categoryList">
+  @if (@Model.Count == 0)
+  {
+    <h3>No categories have been added yet</h3>
+  }
+  @foreach (var category in Model)
+  {
+    <h3><a href='/categories/@category.GetId()'>@category.GetName()</a></h3>
+  }
+</div>
+
+<p><a href='/'><button class="btn btn-default category">Home</button></a></p>
+
+<p><a href="/categories/delete"><button class="btn btn-default category">Delete All</button></a></p>

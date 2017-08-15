@@ -1,14 +1,23 @@
-<h1>Add a new collection to @Model.GetName()</h1>
-<form action='/collection/@Model.GetId()/collection/new' method='post'>
+@{
+  Layout = "_Layout";
+}
 
-  <label for='coin-name'>Enter the coin name:</label>
-  <input id='coin-name' name='coin-name' type='text'>
+<div class="well">
+  <h1>Add a New Coin to @Model.GetName()</h1>
+</div>
 
-  <label for='coin-value'>Enter the coin value:</label>
-  <input id='coin-value' name='coin-value' type='number'>
+<div class="form">
+  <form action='/categories/@Model.GetId()/collection/new' method='post'>
 
-  <label for='coin-year'>Enter the coin year:</label>
-  <input id='coin-year' name='coin-year' type='text'>
+    <label for='coin-name'>Enter the coin name:</label>
+    <input id='coin-name' name='coin-name' type='text' class="form-control">
 
-  <button type='submit'>Add task</button>
-</form>
+    <label for='coin-value'>Enter the coin value:</label>
+    <input id='coin-value' name='coin-value' type='number' class="form-control">
+
+    <label for='coin-year'>Enter the coin year:</label>
+    <input id='coin-year' name='coin-year' type='text' class="form-control">
+
+    <button type='submit' class="add">Add task</button>
+  </form>
+</div>
