@@ -10,12 +10,14 @@ namespace Inventory.Models
     private string _name;
     private int _value;
     private string _year;
+    private int _categoryId;
 
-    public InventoryCollection(string name, int value, string year, int id=0)
+    public InventoryCollection(string name, int value, string year, int categoryId , int id=0)
     {
       _name = name;
       _value = value;
       _year = year;
+      _categoryId = categoryId;
       _id = id;
     }
     public int GetId()
@@ -34,6 +36,10 @@ namespace Inventory.Models
     {
       return _year;
     }
+    public int GetCategoryId()
+    {
+      return _categoryId;
+    }
 
     public static List<InventoryCollection> GetAll()
     {
@@ -49,7 +55,8 @@ namespace Inventory.Models
         string name = rdr.GetString(1);
         int value = rdr.GetInt32(2);
         string year = rdr.GetString(3);
-        InventoryCollection newCollection = new InventoryCollection(name,value,year,collectionId);
+        int collectionCategoryId = rdr.GetInt32(4);
+        InventoryCollection newCollection = new InventoryCollection(name,value,year,collectionCategoryId,collectionId);
         allCollections.Add(newCollection);
       }
       return allCollections;
@@ -60,7 +67,7 @@ namespace Inventory.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"INSERT INTO `collection`(`name`, `value`, `year`) VALUES(@name, @value, @year);";
+      cmd.CommandText = @"INSERT INTO `collection`(`name`, `value`, `year`, category_id) VALUES(@name, @value, @year, @category_id);";
 
       MySqlParameter name = new MySqlParameter();
       name.ParameterName = "@name";
@@ -76,6 +83,11 @@ namespace Inventory.Models
       year.ParameterName = "@year";
       year.Value = this._year;
       cmd.Parameters.Add(year);
+
+      MySqlParameter categoryId = new MySqlParameter();
+      categoryId.ParameterName = "@category_id";
+      categoryId.Value = this._categoryId;
+      cmd.Parameters.Add(categoryId);
 
       cmd.ExecuteNonQuery();
       _id = (int) cmd.LastInsertedId;
@@ -98,8 +110,12 @@ namespace Inventory.Models
       else
       {
         InventoryCollection newEntry = (InventoryCollection) otherEntry;
-        bool collectionEquality = (this.GetName() == newEntry.GetName());
-        return collectionEquality;
+        bool idEquality = this.GetId() == newEntry.GetId();
+        bool nameEquality = (this.GetName() == newEntry.GetName());
+        bool valueEquality = (this.GetValue() == newEntry.GetValue());
+        bool yearEquality = (this.GetYear() == newEntry.GetYear());
+        bool categoryEquality = (this.GetCategoryId() == newEntry.GetCategoryId());
+        return (idEquality && nameEquality && valueEquality && yearEquality && categoryEquality);
       }
     }
     public static InventoryCollection Find(int id)
@@ -119,6 +135,8 @@ namespace Inventory.Models
       string name = "";
       int value = 0;
       string year = "";
+      // int categoryEquality = 2;
+      int collectionCategoryId = 0;
 
       while (rdr.Read())
       {
@@ -126,8 +144,9 @@ namespace Inventory.Models
         name = rdr.GetString(1);
         value = rdr.GetInt32(2);
         year = rdr.GetString(3);
+        collectionCategoryId = rdr.GetInt32(4);
       }
-      InventoryCollection actual = new InventoryCollection(name,value,year,collectionId);
+      InventoryCollection actual = new InventoryCollection(name,value,year,collectionCategoryId,collectionId);
       return actual;
     }
     public override int GetHashCode()

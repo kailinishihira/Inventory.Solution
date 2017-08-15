@@ -22,9 +22,9 @@ namespace Inventory.Tests
     public void GetAll_DatabaseCounts_2()
     {
       //Arrange
-      InventoryCollection newCollection1 = new InventoryCollection("dime",10,"05/10/1700");
+      InventoryCollection newCollection1 = new InventoryCollection("dime",10,"05/10/1700",1);
       newCollection1.Save();
-      InventoryCollection newCollection2 = new InventoryCollection("dime",10,"05/10/1700");
+      InventoryCollection newCollection2 = new InventoryCollection("dime",10,"05/10/1700",1);
       newCollection2.Save();
       int expected = 2;
       //Act
@@ -36,14 +36,14 @@ namespace Inventory.Tests
     public void Equals_ReturnTrueIfPropertyValuesAreSame_InventoryCollection()
     {
       bool expected = true;
-      InventoryCollection firstEntry = new InventoryCollection("coin1", 1, "20/10/1880");
-      InventoryCollection secondEntry = new InventoryCollection("coin1", 1, "20/10/1880");
+      InventoryCollection firstEntry = new InventoryCollection("coin1", 1, "20/10/1880",1);
+      InventoryCollection secondEntry = new InventoryCollection("coin1", 1, "20/10/1880",1);
       Assert.AreEqual(expected, InventoryCollection.Equals(firstEntry,secondEntry));
     }
     [TestMethod]
     public void Save_SavesToDatabase_allCollections()
     {
-      InventoryCollection newCollection = new InventoryCollection("dime",10,"05/10/1700");
+      InventoryCollection newCollection = new InventoryCollection("dime",10,"05/10/1700",1);
       newCollection.Save();
       List<InventoryCollection> actual = InventoryCollection.GetAll();
       List<InventoryCollection> expected = new List<InventoryCollection>();
@@ -53,7 +53,7 @@ namespace Inventory.Tests
     [TestMethod]
     public void Find_FindrecordCollectionInDatabase_InventoryCollection()
     {
-      InventoryCollection expected = new InventoryCollection("coin1", 1, "20/10/1880");
+      InventoryCollection expected = new InventoryCollection("coin1", 1, "20/10/1880",1);
       expected.Save();
       InventoryCollection actual = InventoryCollection.Find(expected.GetId());
       Assert.AreEqual(expected,actual);
